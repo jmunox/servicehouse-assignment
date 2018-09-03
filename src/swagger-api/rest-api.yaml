@@ -1,0 +1,463 @@
+swagger: '2.0'
+info:
+    description: "REST API for  ServiceHouse Assignment"
+    version: "0.1.0"
+    title: "Energy Readings fro ServiceHouse"
+    contact:
+        email: "jmunoza@live.com"
+tags:
+    - name: "fraction"
+      description: "CRUD operations to fractions for a given profile & month"
+    - name: "meterReading"
+      description: "CRUD operations to meterReadings for a given meterID, profile & month"
+    - name: "consumption"
+      description: "Get the Consumption ofr a given Month and MeterID"
+schemes:
+    - "http"
+# basePath: /v0.1
+
+paths:
+    /fraction/{profile}/{month}:
+        put:
+            tags:
+            - "fraction"
+            description: "Add the fraction for Given Profile and Month"
+            operationId: createFraction
+            produces:
+            - "application/json"
+            parameters:
+                - name: profile
+                  in: path
+                  type: string
+                  required: true
+                  description: "Profile Id"
+                - name: month
+                  in: path
+                  type: string
+                  enum:
+                      - JAN
+                      - FEB
+                      - MAR
+                      - APR
+                      - MAY
+                      - JUN
+                      - JUL
+                      - AUG
+                      - SEP
+                      - OCT
+                      - NOV
+                      - DEC
+                  description: "Month of the Year"
+                  required: true
+                - name: fraction
+                  in: query
+                  type: number
+                  format: float
+                  required: true
+                  description: "Distribution of the Consumption among months in a year. Maximum possible value is 1."
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        $ref: "#/definitions/Fraction"
+                400:
+                    description: "Invalid Month or Fraction"
+                404:
+                    description: "Profile Not Found"
+        get:
+            tags:
+            - "fraction"
+            description: "Get the fraction for Given Profile and Month"
+            operationId: getFraction
+            produces:
+            - "application/json"
+            parameters:
+                - name: profile
+                  in: path
+                  type: string
+                  required: true
+                  description: "Profile Id"
+                - name: month
+                  in: path
+                  type: string
+                  enum:
+                      - JAN
+                      - FEB
+                      - MAR
+                      - APR
+                      - MAY
+                      - JUN
+                      - JUL
+                      - AUG
+                      - SEP
+                      - OCT
+                      - NOV
+                      - DEC
+                  description: "Month of the Year"
+                  required: true
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        $ref: "#/definitions/Fraction"
+                400:
+                    description: "Invalid Profile OR Month"
+                404:
+                    description: NOT FOUND
+        post:
+            tags:
+            - "fraction"
+            description: "Update the fraction for Given Profile and Month"
+            operationId: updateFraction
+            produces:
+            - "application/json"
+            parameters:
+                - name: profile
+                  in: path
+                  type: string
+                  required: true
+                  description: "Profile Id"
+                - name: month
+                  in: path
+                  type: string
+                  enum:
+                      - JAN
+                      - FEB
+                      - MAR
+                      - APR
+                      - MAY
+                      - JUN
+                      - JUL
+                      - AUG
+                      - SEP
+                      - OCT
+                      - NOV
+                      - DEC
+                  description: "Month of the Year"
+                  required: true
+                - name: fraction
+                  in: query
+                  type: number
+                  format: float
+                  required: true
+                  description: "Distribution of the Consumption among months in a year. Maximum possible value is 1."
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        $ref: "#/definitions/Fraction"
+                400:
+                    description: "Invalid Profile OR Month"
+                404:
+                    description: NOT FOUND
+        delete:
+            tags:
+            - "fraction"
+            description: "Delete the fraction for Given Profile and Month"
+            operationId: deleteFraction
+            produces:
+            - "application/json"
+            parameters:
+                - name: profile
+                  in: path
+                  type: string
+                  required: true
+                  description: "Profile Id"
+                - name: month
+                  in: path
+                  type: string
+                  enum:
+                      - JAN
+                      - FEB
+                      - MAR
+                      - APR
+                      - MAY
+                      - JUN
+                      - JUL
+                      - AUG
+                      - SEP
+                      - OCT
+                      - NOV
+                      - DEC
+                  description: "Month of the Year"
+                  required: true
+            responses:
+                200:
+                    description: OK
+                400:
+                    description: "Invalid Month"
+                404:
+                    description: NOT FOUND
+    /meter/{meterID}/{profile}/{month}:
+        put:
+            tags:
+            - "meterReading"
+            description: "Add the fraction for Given Profile and Month"
+            operationId: createMeterReading
+            produces:
+            - "application/json"
+            parameters:
+                 - name: meterID
+                   in: path
+                   type: string
+                   required: true
+                   description: "Unique ID of the Meter"
+                 - name: profile
+                   in: path
+                   type: string
+                   required: true
+                   description: "Profile Id"
+                 - name: month
+                   in: path
+                   type: string
+                   enum:
+                      - JAN
+                      - FEB
+                      - MAR
+                      - APR
+                      - MAY
+                      - JUN
+                      - JUL
+                      - AUG
+                      - SEP
+                      - OCT
+                      - NOV
+                      - DEC
+                   description: "Month of the Year"
+                   required: true
+                 - name: meterReading
+                   in: query
+                   type: number
+                   format: float
+                   required: true
+                   description: "The MeterReading for the given meterID, profile and month"
+            responses:
+                200:
+                    description: OK
+                400:
+                    description: "Invalid Month OR MeterReading"
+                404:
+                    description: "Profile Not Found"
+        get:
+            tags:
+            - "meterReading"
+            description: "Get the MeterReading for Given MeterID, Profile and Month"
+            operationId: getMeterReading
+            produces:
+            - "application/json"
+            parameters:
+                 - name: meterID
+                   in: path
+                   type: string
+                   required: true
+                   description: "Unique ID of the Meter"
+                 - name: profile
+                   in: path
+                   type: string
+                   required: true
+                   description: "Profile Id"
+                 - name: month
+                   in: path
+                   type: string
+                   enum:
+                      - JAN
+                      - FEB
+                      - MAR
+                      - APR
+                      - MAY
+                      - JUN
+                      - JUL
+                      - AUG
+                      - SEP
+                      - OCT
+                      - NOV
+                      - DEC
+                   description: "Month of the Year"
+                   required: true
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        $ref: "#/definitions/MeterReading"
+                400:
+                    description: "Invalid Profile OR Month"
+                404:
+                    description: NOT FOUND
+        post:
+            tags:
+            - "meterReading"
+            description: "Update the MeterReading for Given MeterID, Profile and Month"
+            operationId: updateMeterReading
+            produces:
+            - "application/json"
+            parameters:
+                 - name: meterID
+                   in: path
+                   type: string
+                   required: true
+                   description: "Unique ID of the Meter"
+                 - name: profile
+                   in: path
+                   type: string
+                   required: true
+                   description: "Profile Id"
+                 - name: month
+                   in: path
+                   type: string
+                   enum:
+                      - JAN
+                      - FEB
+                      - MAR
+                      - APR
+                      - MAY
+                      - JUN
+                      - JUL
+                      - AUG
+                      - SEP
+                      - OCT
+                      - NOV
+                      - DEC
+                   description: "Month of the Year"
+                   required: true
+                 - name: meterReading
+                   in: query
+                   type: number
+                   format: float
+                   required: true
+                   description: "The MeterReading for the given meterID, profile and month"
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        $ref: "#/definitions/MeterReading"
+                400:
+                    description: "Invalid Profile OR Month"
+                404:
+                    description: "Profile/Fraction data not found"
+        delete:
+            tags:
+            - "meterReading"
+            description: "Delete the MeterReading for a Given MeterID, Profile and Month"
+            operationId: deleteMeterReading
+            produces:
+            - "application/json"
+            parameters:
+                 - name: meterID
+                   in: path
+                   type: string
+                   required: true
+                   description: "Unique ID of the Meter"
+                 - name: profile
+                   in: path
+                   type: string
+                   required: true
+                   description: "Profile Id"
+                 - name: month
+                   in: path
+                   type: string
+                   enum:
+                      - JAN
+                      - FEB
+                      - MAR
+                      - APR
+                      - MAY
+                      - JUN
+                      - JUL
+                      - AUG
+                      - SEP
+                      - OCT
+                      - NOV
+                      - DEC
+                   description: "Month of the Year"
+                   required: true
+            responses:
+                200:
+                    description: OK
+                400:
+                    description: "Invalid Month"
+                404:
+                    description: NOT FOUND
+    /consumption/{meterID}/{month}:
+        get:
+            tags:
+            - "consumption"
+            description: "Get the Consumption for Given MeterID and Month"
+            operationId: getConsumption
+            produces:
+            - "application/json"
+            parameters:
+                 - name: meterID
+                   in: path
+                   type: string
+                   required: true
+                   description: "Unique ID of the Meter"
+                 - name: month
+                   in: path
+                   type: string
+                   enum:
+                      - JAN
+                      - FEB
+                      - MAR
+                      - APR
+                      - MAY
+                      - JUN
+                      - JUL
+                      - AUG
+                      - SEP
+                      - OCT
+                      - NOV
+                      - DEC
+                   description: "Month of the Year"
+                   required: true
+            responses:
+                200:
+                    description: OK
+                    schema:
+                        $ref: "#/definitions/Consumption"
+                400:
+                    description: "Invalid Month"
+                404:
+                    description: NOT FOUND
+definitions:
+    Fraction:
+        type: object
+        properties:
+            value:
+                type: number
+                format: float
+                description: "The Value of the Fraction"
+            profile:
+                type: string
+                description: "Profile ID"
+            month:
+                type: string
+                description: "Month of the year (JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)"
+    MeterReading:
+        type: object
+        properties:
+            value:
+                type: number
+                format: float
+                description: "The MeterReading"
+            meterID:
+                type: string
+                description: "The Unique Id of the Meter"
+            profile:
+                type: string
+                description: "The profile ID"
+            month:
+                type: string
+                description: "Month of the year (JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)"
+    Consumption:
+        type: object
+        properties:
+            value:
+                type: number
+                format: float
+                description: "The Consumption"
+            meterID:
+                type: string
+                description: "The Unique Id of the Meter"
+            month:
+                type: string
+                description: "Month of the year (JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)"
